@@ -6,7 +6,5 @@ function capitalize(str) {
     return null;
   };
 };
-
-console.log(capitalize("hola"));
   
 module.exports = capitalize;

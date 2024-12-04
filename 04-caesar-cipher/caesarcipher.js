@@ -28,29 +28,53 @@ function caesarCipher(str, n) {
     "Z"
   ];
 
-  let cipheredAlphabet = new Array(26);
+  const generateCipheredAlphabet = (alph, factor) => {
+    let cipheredAlphabet = new Array(26);
 
-  for (let i = 0; i < alphabet.length; i++) {
-    cipheredAlphabet[i] = alphabet[n];
-    n++;
-    if (n > 25) {
-      n = 0;
-    };
-  };
-
-  let cipheredStr = "";
-
-  for (let i = 0; i < str.length; i++) {
-    let cipheredLetter = str[i];
-    for (let j = 0; j < alphabet.length; j++) {
-      if (cipheredLetter.toUpperCase() === alphabet[j]) {
-        cipheredLetter = cipheredAlphabet[j];
+    for (let i = 0; i < alph.length; i++) {
+      cipheredAlphabet[i] = alphabet[factor];
+      factor++;
+      if (factor > 25) {
+        factor = 0;
       };
     };
-    cipheredStr += cipheredLetter;
+    return cipheredAlphabet;
   };
 
-  return cipheredStr;
+  const checkForUpperCase = (letter) => {
+    if (letter === letter.toUpperCase()) {
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+  const cipherLetter = (a, c, l) => {
+    for (let i = 0; i < a.length; i++) {
+      if (l.toUpperCase() === a[i]) {
+        return c[i];
+      };
+    };
+    return l;
+  };
+
+  const cipherStr = (strg, alph, num) => {
+    let cipheredStr = "";
+    const newAlph = generateCipheredAlphabet(alph, num);
+
+    for (let i = 0; i < strg.length; i++) {
+      let letterToCipher;
+      if (checkForUpperCase(strg[i])) {
+        letterToCipher = cipherLetter(alphabet, newAlph, strg[i]);
+      } else {
+        letterToCipher = cipherLetter(alphabet, newAlph, strg[i]).toLowerCase();
+      };
+      cipheredStr += letterToCipher;
+    };
+    return cipheredStr;
+  };
+  return cipherStr(str, alphabet, n);
 };
 
 module.exports = caesarCipher;
+
